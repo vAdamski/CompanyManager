@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager", "CompanyManager\CompanyManager.csproj", "{D79273E6-D508-4593-8EEF-3159C8F007FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Api", "CompanyManager.Api\CompanyManager.Api.csproj", "{D79273E6-D508-4593-8EEF-3159C8F007FA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Shared", "CompanyManager.Shared\CompanyManager.Shared.csproj", "{C841107C-9528-4138-AF82-7545E34C62CF}"
 EndProject
