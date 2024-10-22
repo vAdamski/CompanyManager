@@ -1,4 +1,4 @@
-using CompanyManager.Shared.Common;
+using CompanyManager.Domain.Common;
 using FluentValidation;
 using MediatR;
 

@@ -1,4 +1,4 @@
-using CompanyManager.Shared.Common;
+using CompanyManager.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

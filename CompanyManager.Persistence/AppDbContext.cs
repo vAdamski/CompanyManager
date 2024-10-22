@@ -18,8 +18,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>, IAppDbContext
 
 	public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
 	{
+		
 	}
-
+	
 	public AppDbContext(DbContextOptions<AppDbContext> options, IDateTime dateTime,
 		ICurrentUserService userService) : base(options)
 	{

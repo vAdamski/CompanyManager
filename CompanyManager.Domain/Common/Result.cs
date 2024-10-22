@@ -1,4 +1,4 @@
-namespace CompanyManager.Shared.Common;
+namespace CompanyManager.Domain.Common;
 
 public class Result
 {
