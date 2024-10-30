@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Api", "CompanyManager.Api\CompanyManager.Api.csproj", "{D79273E6-D508-4593-8EEF-3159C8F007FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Shared", "CompanyManager.Shared\CompanyManager.Shared.csproj", "{C841107C-9528-4138-AF82-7545E34C62CF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Domain", "CompanyManager.Domain\CompanyManager.Domain.csproj", "{A7169574-C996-475C-A352-A32866503C88}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Application", "CompanyManager.Application\CompanyManager.Application.csproj", "{F348F49C-4841-40BE-81AB-0759E0AD7FA1}"
@@ -24,10 +22,6 @@ Global
 		{D79273E6-D508-4593-8EEF-3159C8F007FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D79273E6-D508-4593-8EEF-3159C8F007FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D79273E6-D508-4593-8EEF-3159C8F007FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C841107C-9528-4138-AF82-7545E34C62CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C841107C-9528-4138-AF82-7545E34C62CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C841107C-9528-4138-AF82-7545E34C62CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C841107C-9528-4138-AF82-7545E34C62CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7169574-C996-475C-A352-A32866503C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7169574-C996-475C-A352-A32866503C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7169574-C996-475C-A352-A32866503C88}.Release|Any CPU.ActiveCfg = Release|Any CPU

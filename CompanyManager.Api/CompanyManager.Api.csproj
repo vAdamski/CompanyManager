@@ -21,7 +21,6 @@
     <ItemGroup>
       <ProjectReference Include="..\CompanyManager.Infrastructure\CompanyManager.Infrastructure.csproj" />
       <ProjectReference Include="..\CompanyManager.Persistence\CompanyManager.Persistence.csproj" />
-      <ProjectReference Include="..\CompanyManager.Shared\CompanyManager.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>

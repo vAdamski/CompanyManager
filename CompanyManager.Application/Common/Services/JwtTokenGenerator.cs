@@ -13,11 +13,15 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 {
 	private readonly string _secret;
 	private readonly int _expirationTime;
+	private readonly string _issuer;
+	private readonly string _audience;
 
 	public JwtTokenGenerator(IConfiguration configuration)
 	{
 		_secret = configuration["Jwt:Secret"];
 		_expirationTime = int.Parse(configuration["Jwt:ExpirationTime"]);
+		_issuer = configuration["Jwt:Issuer"];
+		_audience = configuration["Jwt:Audience"];
 	}
 
 	public async Task<string> GenerateToken(ApplicationUser user, List<string> roles = null,
@@ -27,6 +31,8 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 		var tokenHandler = new JwtSecurityTokenHandler();
 		var tokenDescriptor = new SecurityTokenDescriptor
 		{
+			Audience = _audience,
+			Issuer = _issuer,
 			Subject = CreateClaimsIdentity(user, roles, claims),
 			Expires = DateTime.UtcNow.AddSeconds(_expirationTime),
 			SigningCredentials =

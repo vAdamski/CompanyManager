@@ -18,7 +18,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CompanyManager.Domain\CompanyManager.Domain.csproj" />
-      <ProjectReference Include="..\CompanyManager.Shared\CompanyManager.Shared.csproj" />
     </ItemGroup>
 
 </Project>

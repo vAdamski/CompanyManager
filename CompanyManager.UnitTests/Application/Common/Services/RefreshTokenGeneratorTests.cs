@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using Shouldly;
 
-namespace CompanyManager.UnitTests.Application.Services;
+namespace CompanyManager.UnitTests.Application.Common.Services;
 
 public class RefreshTokenGeneratorTests
 {

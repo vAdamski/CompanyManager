@@ -1,8 +1,9 @@
 using CompanyManager.Application.Common.Abstraction.Messaging;
+using CompanyManager.Application.Common.Models;
 
 namespace CompanyManager.Application.Actions.AuthActions.Commands.LoginUser;
 
-public class LoginUserCommand : ICommand<LoginUserResponse>
+public class LoginUserCommand : ICommand<JwtTokenResponse>
 {
 	public LoginUserCommand(string email, string password)
 	{

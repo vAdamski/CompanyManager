@@ -29,4 +29,11 @@ public static class DomainErrors
 			"Role.NotFound",
 			"Role not found.");
 	}
+	
+	public static class Jwt
+	{
+		public static readonly Error InvalidToken = new(
+			"Jwt.InvalidToken",
+			"Invalid token.");
+	}
 }

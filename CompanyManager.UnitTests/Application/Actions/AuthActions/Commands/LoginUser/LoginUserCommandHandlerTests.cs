@@ -1,6 +1,7 @@
-using System.Security.Claims;
 using CompanyManager.Application.Actions.AuthActions.Commands.LoginUser;
-using CompanyManager.Application.Common.Interfaces.Application.Services;
+using CompanyManager.Application.Common.Interfaces.Application.Managers;
+using CompanyManager.Application.Common.Models;
+using CompanyManager.Domain.Common;
 using CompanyManager.Domain.Entities;
 using CompanyManager.Domain.Errors;
 using Microsoft.AspNetCore.Identity;
@@ -12,18 +13,16 @@ namespace CompanyManager.UnitTests.Application.Actions.AuthActions.Commands.Logi
 public class LoginUserCommandHandlerTests
 {
 	private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
-	private readonly Mock<IJwtTokenGenerator> _jwtTokenGeneratorMock;
-	private readonly Mock<IRefreshTokenGenerator> _refreshTokenGeneratorMock;
+	private readonly Mock<IJwtTokenManager> _jwtTokenManagerMock;
 	private readonly LoginUserCommandHandler _handler;
 
 	public LoginUserCommandHandlerTests()
 	{
-		var store = new Mock<IUserStore<ApplicationUser>>();
-		_userManagerMock =
-			new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
-		_jwtTokenGeneratorMock = new Mock<IJwtTokenGenerator>();
-		_refreshTokenGeneratorMock = new Mock<IRefreshTokenGenerator>();
-		_handler = new LoginUserCommandHandler(_userManagerMock.Object, _jwtTokenGeneratorMock.Object, _refreshTokenGeneratorMock.Object);
+		var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
+		_userManagerMock = new Mock<UserManager<ApplicationUser>>(userStoreMock.Object, null, null, null, null,
+			null, null, null, null);
+		_jwtTokenManagerMock = new Mock<IJwtTokenManager>();
+		_handler = new LoginUserCommandHandler(_userManagerMock.Object, _jwtTokenManagerMock.Object);
 	}
 
 	[Fact]
@@ -61,22 +60,16 @@ public class LoginUserCommandHandlerTests
 	}
 
 	[Fact]
-	public async Task Handle_ValidCredentials_ReturnsSuccessWithToken()
+	public async Task Handle_ValidCredentials_ReturnsSuccess()
 	{
 		// Arrange
 		var user = ApplicationUser.Create("user@example.com");
 		var command = new LoginUserCommand("user@example.com", "correctpassword");
-		var roles = new List<string> { "Role1", "Role2" };
-		var claims = new List<Claim> { new Claim("type", "value") };
-		var token = "token";
-
 		_userManagerMock.Setup(x => x.FindByEmailAsync(command.Email)).ReturnsAsync(user);
 		_userManagerMock.Setup(x => x.CheckPasswordAsync(user, command.Password)).ReturnsAsync(true);
-		_userManagerMock.Setup(x => x.GetRolesAsync(user)).ReturnsAsync(roles);
-		_userManagerMock.Setup(x => x.GetClaimsAsync(user)).ReturnsAsync(claims);
-		_jwtTokenGeneratorMock.Setup(x => x.GenerateToken(user, It.IsAny<List<string>>(), It.IsAny<List<Claim>>()))
-			.ReturnsAsync(token);
-		_refreshTokenGeneratorMock.Setup(x => x.GenerateRefreshToken()).Returns("refresh");
+		var tokenResponse = JwtTokenResponse.Success("jwt_token", "refresh_token");
+		_jwtTokenManagerMock.Setup(x => x.GenerateJwtAndRefreshToken(command.Email))
+			.ReturnsAsync(Result.Success(tokenResponse));
 
 		// Act
 		var result = await _handler.Handle(command, CancellationToken.None);
@@ -84,7 +77,6 @@ public class LoginUserCommandHandlerTests
 		// Assert
 		result.ShouldNotBeNull();
 		result.IsSuccess.ShouldBeTrue();
-		result.Value.JwtToken.ShouldBe(token);
-		result.Value.RefreshToken.ShouldNotBeNull();
+		result.Value.ShouldBe(tokenResponse);
 	}
 }

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using Shouldly;
 
-namespace CompanyManager.UnitTests.Application.Services;
+namespace CompanyManager.UnitTests.Application.Common.Services;
 
 public class JwtTokenGeneratorTests
 {
@@ -21,6 +21,8 @@ public class JwtTokenGeneratorTests
 
 		_mockConfiguration.Setup(config => config["Jwt:Secret"]).Returns(_secret.ToString());
 		_mockConfiguration.Setup(config => config["Jwt:ExpirationTime"]).Returns("600");
+		_mockConfiguration.Setup(config => config["Jwt:Issuer"]).Returns("CompanyManager");
+		_mockConfiguration.Setup(config => config["Jwt:Audience"]).Returns("CompanyManager");
 
 		_jwtTokenGenerator = new JwtTokenGenerator(_mockConfiguration.Object);
 	}
@@ -63,6 +65,24 @@ public class JwtTokenGeneratorTests
 		claimsInToken.ShouldContain(claim => claim.Type == "role" && claim.Value == "Admin");
 		claimsInToken.ShouldContain(claim => claim.Type == "role" && claim.Value == "User");
 		claimsInToken.ShouldContain(claim => claim.Type == "CustomClaimType" && claim.Value == "CustomClaimValue");
+	}
+
+	[Fact]
+	public async Task GenerateToken_Should_Include_Issuer_And_Audience()
+	{
+		// Arrange
+		var user = ApplicationUser.Create("test@example.com");
+
+		// Act
+		var token = await _jwtTokenGenerator.GenerateToken(user, null, null);
+
+		// Assert
+		
+		var claimsInToken = new JwtSecurityTokenHandler().ReadJwtToken(token).Claims.ToList();
+		
+		token.ShouldNotBeNull();
+		claimsInToken.ShouldContain(claim => claim.Type == "iss" && claim.Value == "CompanyManager");
+		claimsInToken.ShouldContain(claim => claim.Type == "aud" && claim.Value == "CompanyManager");
 	}
 
 	[Fact]
