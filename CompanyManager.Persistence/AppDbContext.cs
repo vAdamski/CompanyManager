@@ -2,16 +2,13 @@ using CompanyManager.Application.Common.Interfaces.Api.Services;
 using CompanyManager.Application.Common.Interfaces.Infrastructure.Services;
 using CompanyManager.Application.Common.Interfaces.Persistence;
 using CompanyManager.Domain.Common;
-using CompanyManager.Domain.Entities;
 using CompanyManager.Domain.Enums;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace CompanyManager.Persistence;
 
-public class AppDbContext : IdentityDbContext<ApplicationUser>, IAppDbContext
+public class AppDbContext : DbContext, IAppDbContext
 {
 	private readonly IDateTime _dateTime;
 	private readonly ICurrentUserService _userService;

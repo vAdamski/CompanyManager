@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.Persistence"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.UnitTests", "CompanyManager.UnitTests\CompanyManager.UnitTests.csproj", "{8F913651-C061-4663-A950-6AAC720FAD0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyManager.IdentityServer", "CompanyManager.IdentityServer\CompanyManager.IdentityServer.csproj", "{24330ED1-902D-482A-AF73-BF9240E36C89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{8F913651-C061-4663-A950-6AAC720FAD0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F913651-C061-4663-A950-6AAC720FAD0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F913651-C061-4663-A950-6AAC720FAD0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24330ED1-902D-482A-AF73-BF9240E36C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24330ED1-902D-482A-AF73-BF9240E36C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24330ED1-902D-482A-AF73-BF9240E36C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24330ED1-902D-482A-AF73-BF9240E36C89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

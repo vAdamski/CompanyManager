@@ -29,4 +29,8 @@
       <ProjectReference Include="..\CompanyManager.Domain\CompanyManager.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Application\" />
+    </ItemGroup>
+
 </Project>
