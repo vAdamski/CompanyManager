@@ -27,18 +27,4 @@ public class Company : AuditableEntity
 		
 		return new Company(companyName);
 	}
-	
-	public Result<LeaveApplication> AddLeaveApplication(DateOnly freeFrom, DateOnly freeTo, int workDaysCount,
-		LeaveApplicationType type)
-	{
-		Result<LeaveApplication> leaveApplicationResult = LeaveApplication.Create(this, freeFrom, freeTo, workDaysCount, type);
-		
-		if (leaveApplicationResult.IsFailure)
-			return Result.Failure<LeaveApplication>(leaveApplicationResult.Error);
-		
-		LeaveApplication leaveApplication = leaveApplicationResult.Value;
-		_leaveApplications.Add(leaveApplication);
-		
-		return Result.Success(leaveApplication);
-	}
 }
