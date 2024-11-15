@@ -1,6 +1,8 @@
 using Duende.IdentityServer;
 using CompanyManager.IdentityServer.Data;
 using CompanyManager.IdentityServer.Models;
+using CompanyManager.IdentityServer.Services;
+using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -11,6 +13,7 @@ internal static class HostingExtensions
 {
 	public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
 	{
+		builder.Services.AddTransient<IProfileService, ProfileService>();
 		builder.Services.AddRazorPages();
 
 		builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -27,26 +30,15 @@ internal static class HostingExtensions
 				options.Events.RaiseInformationEvents = true;
 				options.Events.RaiseFailureEvents = true;
 				options.Events.RaiseSuccessEvents = true;
-
-				// see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
 				options.EmitStaticAudienceClaim = true;
 			})
 			.AddInMemoryIdentityResources(Config.IdentityResources)
 			.AddInMemoryApiScopes(Config.ApiScopes)
 			.AddInMemoryClients(Config.Clients)
-			.AddAspNetIdentity<ApplicationUser>();
+			.AddAspNetIdentity<ApplicationUser>()
+			.AddProfileService<ProfileService>();
 
-		builder.Services.AddAuthentication()
-			.AddGoogle(options =>
-			{
-				options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-
-				// register your IdentityServer with Google at https://console.developers.google.com
-				// enable the Google+ API
-				// set the redirect URI to https://localhost:5001/signin-google
-				options.ClientId = "copy client ID from Google here";
-				options.ClientSecret = "copy client secret from Google here";
-			});
+		builder.Services.AddAuthentication();
 
 		return builder.Build();
 	}
