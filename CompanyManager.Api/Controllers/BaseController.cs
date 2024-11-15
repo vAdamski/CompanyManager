@@ -1,9 +1,11 @@
 using CompanyManager.Domain.Common;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyManager.Controllers;
 
+[Authorize]
 [ApiController]
 public class BaseController : ControllerBase
 {

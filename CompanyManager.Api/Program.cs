@@ -109,6 +109,7 @@ builder.Services.AddControllers()
 		opt.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
 	});
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
