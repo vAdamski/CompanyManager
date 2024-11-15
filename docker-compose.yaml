@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: companyManagerDb
+    environment:
+      - ACCEPT_EULA=1
+      - MSSQL_SA_PASSWORD=Pass1234$
+    ports:
+      - 1433:1433
