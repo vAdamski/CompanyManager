@@ -1,7 +1,9 @@
+using System.Reflection;
 using CompanyManager.Application.Common.Interfaces.Api.Services;
 using CompanyManager.Application.Common.Interfaces.Infrastructure.Services;
 using CompanyManager.Application.Common.Interfaces.Persistence;
 using CompanyManager.Domain.Common;
+using CompanyManager.Domain.Entities;
 using CompanyManager.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -25,12 +27,16 @@ public class AppDbContext : DbContext, IAppDbContext
 		_userService = userService;
 	}
 
+	public DatabaseFacade Database => base.Database;
+	public DbSet<Company> Companies { get; set; }
+	public DbSet<LeaveApplication> LeaveApplications { get; set; }
+	public DbSet<LeaveApplicationComment> LeaveApplicationComments { get; set; }
+	
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		base.OnModelCreating(modelBuilder);
+		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
-	
-	public DatabaseFacade Database => base.Database;
 	
 	public void Dispose()
 	{

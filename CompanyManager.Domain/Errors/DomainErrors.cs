@@ -4,36 +4,36 @@ namespace CompanyManager.Domain.Errors;
 
 public static class DomainErrors
 {
-	public static class User
+	public static class LeaveApplication
 	{
-		public static readonly Error EmailAlreadyInUse = new(
-			"User.EmailAlreadyInUse",
-			"The provided email is already in use.");
+		public static readonly Error StartDateMustBeBeforeEndDate = new(
+			"LeaveApplication.StartDateMustBeBeforeEndDate",
+			"Start date must be before end date.");
+		
+		public static readonly Error WorkDaysCountMustBeGreaterThanZero = new(
+			"LeaveApplication.WorkDaysCountMustBeGreaterThanZero",
+			"Work days count must be greater than zero.");
 
-		public static readonly Error RegisterFailed = new(
-			"User.RegisterFailed",
-			"Failed to register user.");
-
-		public static readonly Error UserNotFound = new(
-			"User.UserNotFound",
-			"User not found.");
-
-		public static readonly Error InvalidPassword = new(
-			"User.InvalidPassword",
-			"Invalid password.");
-	}
-
-	public static class Role
-	{
-		public static readonly Error NotFound = new(
-			"Role.NotFound",
-			"Role not found.");
+		public static readonly Error OnlyPendingLeaveApplicationsCanBeApproved = new(
+			"LeaveApplication.OnlyPendingLeaveApplicationsCanBeApproved",
+			"Only pending leave applications can be approved.");
+		
+		public static readonly Error OnlyPendingLeaveApplicationsCanBeRejected = new(
+			"LeaveApplication.OnlyPendingLeaveApplicationsCanBeRejected",
+			"Only pending leave applications can be rejected.");
 	}
 	
-	public static class Jwt
+	public static class LeaveApplicationComment
 	{
-		public static readonly Error InvalidToken = new(
-			"Jwt.InvalidToken",
-			"Invalid token.");
+		public static readonly Error CommentBodyCannotBeEmpty = new(
+			"LeaveApplicationComment.CommentBodyCannotBeEmpty",
+			"Comment body cannot be empty.");
+	}
+	
+	public static class Company
+	{
+		public static readonly Error CompanyNameCannotBeEmpty = new(
+			"Company.CompanyNameCannotBeEmpty",
+			"Company name cannot be empty.");
 	}
 }
