@@ -46,7 +46,7 @@ internal static class HostingExtensions
 		builder.Services.AddCors(options =>
 		{
 			options.AddPolicy("CORS", policy => policy
-				.AllowAnyOrigin()
+				.WithOrigins(Environment.GetEnvironmentVariable("SWAGGER_ALLOWED_CORS_ORIGINS") ?? "http://localhost:5001")
 				.AllowAnyHeader()
 				.AllowAnyMethod());
 		});
