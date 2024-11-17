@@ -26,5 +26,5 @@ jobs:
 
     - name: Build and Push Docker Image
       run: |
-        docker build -t vazaras/companymanager-api:latest ./CompanyManager.Api
+        docker build -f ./CompanyManager.Api/Dockerfile -t vazaras/companymanager-api:latest .
         docker push vazaras/companymanager-api:latest
