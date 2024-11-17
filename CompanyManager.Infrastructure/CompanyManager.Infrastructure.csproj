@@ -15,4 +15,8 @@
       <ProjectReference Include="..\CompanyManager.Application\CompanyManager.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="RabbitMq\" />
+    </ItemGroup>
+
 </Project>
