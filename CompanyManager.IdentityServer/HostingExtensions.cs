@@ -48,7 +48,8 @@ internal static class HostingExtensions
 			options.AddPolicy("CORS", policy => policy
 				.AllowAnyOrigin()
 				.AllowAnyHeader()
-				.AllowAnyMethod());
+				.AllowAnyMethod()
+				.Build());
 		});
 
 		return builder.Build();

@@ -106,7 +106,8 @@ builder.Services.AddCors(options =>
 	options.AddPolicy("CORS", policy => policy
 		.AllowAnyOrigin()
 		.AllowAnyHeader()
-		.AllowAnyMethod());
+		.AllowAnyMethod()
+		.Build());
 });
 
 builder.Services.AddHttpContextAccessor();
