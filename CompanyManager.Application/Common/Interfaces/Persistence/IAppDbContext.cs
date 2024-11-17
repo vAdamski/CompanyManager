@@ -9,6 +9,8 @@ public interface IAppDbContext
 	DbSet<Company> Companies { get; set; }
 	DbSet<LeaveApplication> LeaveApplications { get; set; }
 	DbSet<LeaveApplicationComment> LeaveApplicationComments { get; set; }
+	DbSet<Employee> Employees { get; set; }
+	DbSet<EmployeeSupervisor> EmployeeSupervisors { get; set; }
 	
 	DatabaseFacade Database { get; }
 	

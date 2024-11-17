@@ -5,8 +5,9 @@ namespace CompanyManager.Domain.Entities;
 
 public class Employee : AuditableEntity
 {
-	private List<Employee> _superiors = new();
-	
+	private List<EmployeeSupervisor> _supervisors = new();
+	private List<EmployeeSupervisor> _subordinates = new();
+
 	public string FirstName { get; private set; }
 	public string LastName { get; private set; }
 	public string UserName { get; private set; }
@@ -14,15 +15,13 @@ public class Employee : AuditableEntity
 
 	public Guid CompanyId { get; private set; }
 	public Company? Company { get; private set; }
-	
-	public IReadOnlyCollection<Employee> Superiors => _superiors.AsReadOnly();
 
-	private Employee()
-	{
-		
-	}
+	public IReadOnlyCollection<EmployeeSupervisor> Supervisors => _supervisors.AsReadOnly();
+	public IReadOnlyCollection<EmployeeSupervisor> Subordinates => _subordinates.AsReadOnly();
 
-	private Employee(string firstName, string lastName, string userName, string email, Company company, List<Employee> superiors)
+	private Employee() { }
+
+	private Employee(string firstName, string lastName, string userName, string email, Company company)
 	{
 		FirstName = firstName;
 		LastName = lastName;
@@ -30,15 +29,12 @@ public class Employee : AuditableEntity
 		Email = email;
 		CompanyId = company.Id;
 		Company = company;
-		_superiors = superiors;
 	}
-	
-	public static Employee Create(string firstName, string lastName, string userName, string email, Company company, List<Employee> superiors)
+
+	public static Employee Create(string firstName, string lastName, string userName, string email, Company company)
 	{
-		var employee = new Employee(firstName, lastName, userName, email, company, superiors);
-		
+		var employee = new Employee(firstName, lastName, userName, email, company);
 		employee.Raise(new EmployeeCreatedEvent(Guid.NewGuid(), employee));
-		
 		return employee;
 	}
 }
