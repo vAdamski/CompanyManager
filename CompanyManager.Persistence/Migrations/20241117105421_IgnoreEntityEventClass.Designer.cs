@@ -4,6 +4,7 @@ using CompanyManager.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CompanyManager.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241117105421_IgnoreEntityEventClass")]
+    partial class IgnoreEntityEventClass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,6 +235,37 @@ namespace CompanyManager.Persistence.Migrations
                     b.ToTable("LeaveApplicationComments");
                 });
 
+            modelBuilder.Entity("CompanyManager.Domain.Primitives.DomainEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("LeaveApplicationCommentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("LeaveApplicationId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("LeaveApplicationCommentId");
+
+                    b.HasIndex("LeaveApplicationId");
+
+                    b.ToTable("DomainEvent");
+                });
+
             modelBuilder.Entity("CompanyManager.Domain.Entities.Employee", b =>
                 {
                     b.HasOne("CompanyManager.Domain.Entities.Company", "Company")
@@ -284,8 +318,29 @@ namespace CompanyManager.Persistence.Migrations
                     b.Navigation("LeaveApplication");
                 });
 
+            modelBuilder.Entity("CompanyManager.Domain.Primitives.DomainEvent", b =>
+                {
+                    b.HasOne("CompanyManager.Domain.Entities.Company", null)
+                        .WithMany("DomainEvents")
+                        .HasForeignKey("CompanyId");
+
+                    b.HasOne("CompanyManager.Domain.Entities.Employee", null)
+                        .WithMany("DomainEvents")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("CompanyManager.Domain.Entities.LeaveApplicationComment", null)
+                        .WithMany("DomainEvents")
+                        .HasForeignKey("LeaveApplicationCommentId");
+
+                    b.HasOne("CompanyManager.Domain.Entities.LeaveApplication", null)
+                        .WithMany("DomainEvents")
+                        .HasForeignKey("LeaveApplicationId");
+                });
+
             modelBuilder.Entity("CompanyManager.Domain.Entities.Company", b =>
                 {
+                    b.Navigation("DomainEvents");
+
                     b.Navigation("Employees");
 
                     b.Navigation("LeaveApplications");
@@ -293,6 +348,8 @@ namespace CompanyManager.Persistence.Migrations
 
             modelBuilder.Entity("CompanyManager.Domain.Entities.Employee", b =>
                 {
+                    b.Navigation("DomainEvents");
+
                     b.Navigation("Subordinates");
 
                     b.Navigation("Supervisors");
@@ -301,6 +358,13 @@ namespace CompanyManager.Persistence.Migrations
             modelBuilder.Entity("CompanyManager.Domain.Entities.LeaveApplication", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("DomainEvents");
+                });
+
+            modelBuilder.Entity("CompanyManager.Domain.Entities.LeaveApplicationComment", b =>
+                {
+                    b.Navigation("DomainEvents");
                 });
 #pragma warning restore 612, 618
         }

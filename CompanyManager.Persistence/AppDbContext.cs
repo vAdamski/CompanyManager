@@ -42,6 +42,9 @@ public class AppDbContext : DbContext, IAppDbContext
 	{
 		base.OnModelCreating(modelBuilder);
 		modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+		
+		modelBuilder.Ignore<EntityEvent>();
+		modelBuilder.Ignore<DomainEvent>();
 	}
 	
 	public void Dispose()
