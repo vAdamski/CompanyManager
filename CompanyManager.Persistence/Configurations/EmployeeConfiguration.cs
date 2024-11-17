@@ -15,10 +15,5 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 		builder.Property(x => x.LastName).IsRequired().HasMaxLength(256);
 		builder.Property(x => x.UserName).IsRequired().HasMaxLength(256);
 		builder.Property(x => x.Email).IsRequired().HasMaxLength(256);
-		
-		builder.HasOne(x => x.Company)
-			.WithMany(x => x.Employees)
-			.HasForeignKey(x => x.CompanyId)
-			.OnDelete(DeleteBehavior.NoAction);
 	}
 }
