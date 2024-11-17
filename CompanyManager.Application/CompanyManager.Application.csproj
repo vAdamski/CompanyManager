@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Actions\EmployeeActions\Commands\CreateEmployee\" />
       <Folder Include="Common\Managers\" />
       <Folder Include="Common\Models\" />
     </ItemGroup>
