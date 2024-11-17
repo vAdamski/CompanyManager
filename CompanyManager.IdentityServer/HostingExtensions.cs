@@ -46,7 +46,7 @@ internal static class HostingExtensions
 		builder.Services.AddCors(options =>
 		{
 			options.AddPolicy("CORS", policy => policy
-				.WithOrigins(Environment.GetEnvironmentVariable("SWAGGER_ALLOWED_CORS_ORIGINS") ?? "http://localhost:5001")
+				.AllowAnyOrigin()
 				.AllowAnyHeader()
 				.AllowAnyMethod());
 		});
@@ -66,13 +66,13 @@ internal static class HostingExtensions
 		app.UseStaticFiles();
 		app.UseRouting();
 		app.UseIdentityServer();
-		
+
 		app.UseCors("CORS");
-		
+
 		app.UseAuthorization();
 
 		app.MapRazorPages()
-			.RequireAuthorization();
+			.AllowAnonymous();
 
 		return app;
 	}
