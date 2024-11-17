@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Actions\" />
       <Folder Include="Common\Interfaces\Application\" />
       <Folder Include="Common\Managers\" />
       <Folder Include="Common\Models\" />
