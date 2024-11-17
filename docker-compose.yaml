@@ -19,3 +19,50 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
+        
+  companymanager-ids:
+    image: vazaras/companymanager-ids:latest
+    container_name: companyManagerIds
+    ports:
+      - 16000:80
+      - 16001:443
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=16001
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Initial Catalog=CompanyManagerIdentityServerDatabase;Persist Security Info=False;User ID=sa;Password=Pass1234$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
+      - SWAGGER_REDIRECT_URI=https://localhost:16001/swagger/oauth2-redirect.html
+      - SWAGGER_ALLOWED_CORS_ORIGINS=https://localhost:16001
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Pass123$
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/companymanager-ids.pfx
+    depends_on:
+      - sqlserver
+      - rabbitmq
+    volumes:
+      - ${HOME}/.aspnet/https:/https/
+      - ${HOME}/.keys:/app/keys
+      
+  companymanager-api:
+    image: vazaras/companymanager-api:latest
+    container_name: companyManagerApi
+    ports:
+      - 15000:80
+      - 15001:443
+    depends_on:
+      - sqlserver
+      - rabbitmq
+      - companymanager-ids
+    environment:
+      - ASPNETCORE_URLS=https://+;http://+
+      - ASPNETCORE_HTTPS_PORT=15001
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Initial Catalog=CompanyManagerDatabase;Persist Security Info=False;User ID=sa;Password=Pass1234$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
+      - RabbitMq__Host=rabbitmq
+      - RabbitMq__Port=5672
+      - RabbitMq__UserName=guest
+      - RabbitMq__Password=guest
+      - Ids__Authority=https://localhost:16001
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Pass123$
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/companymanager-api.pfx
+    volumes:
+      - ${HOME}/.aspnet/https:/https/
