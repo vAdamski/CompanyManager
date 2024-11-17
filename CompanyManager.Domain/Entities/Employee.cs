@@ -19,9 +19,12 @@ public class Employee : AuditableEntity
 	public IReadOnlyCollection<EmployeeSupervisor> Supervisors => _supervisors.AsReadOnly();
 	public IReadOnlyCollection<EmployeeSupervisor> Subordinates => _subordinates.AsReadOnly();
 
-	private Employee() { }
+	private Employee()
+	{
+	}
 
-	private Employee(string firstName, string lastName, string userName, string email, Company company, List<Employee> supervisors)
+	private Employee(string firstName, string lastName, string userName, string email, Company company,
+		List<Employee> supervisors)
 	{
 		FirstName = firstName;
 		LastName = lastName;
@@ -32,10 +35,28 @@ public class Employee : AuditableEntity
 		_supervisors = supervisors.Select(s => EmployeeSupervisor.Create(this, s)).ToList();
 	}
 
-	public static Employee Create(string firstName, string lastName, string userName, string email, Company company)
+	public static Result<Employee> Create(string firstName, string lastName, string userName, string email,
+		Company company)
+	{
+		return CreateEmployee(firstName, lastName, userName, email, company, new List<string> { "User" });
+	}
+
+	public static Result<Employee> CreateCompanyOwner(string firstName, string lastName, string userName, string email,
+		Company company)
+	{
+		return CreateEmployee(firstName, lastName, userName, email, company,
+			new List<string> { "User", "CompanyOwner" });
+	}
+
+	private static Result<Employee> CreateEmployee(string firstName, string lastName, string userName, string email,
+		Company company, List<string> roles)
 	{
 		var employee = new Employee(firstName, lastName, userName, email, company, new List<Employee>());
-		employee.Raise(new EmployeeCreatedEvent(Guid.NewGuid(), employee));
+		var eventId = Guid.NewGuid();
+		var claims = new List<string>();
+
+		employee.Raise(new CreateEmployeeInIdsEvent(eventId, employee, roles, claims));
+
 		return employee;
 	}
 }

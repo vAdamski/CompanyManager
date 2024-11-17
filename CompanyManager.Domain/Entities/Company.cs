@@ -1,5 +1,5 @@
 using CompanyManager.Domain.Common;
-using CompanyManager.Domain.Enums;
+using CompanyManager.Domain.EntityHelpers;
 using CompanyManager.Domain.Errors;
 
 namespace CompanyManager.Domain.Entities;
@@ -22,11 +22,31 @@ public class Company : AuditableEntity
 		CompanyName = companyName;
 	}
 	
-	public static Result<Company> Create(string companyName)
+	public static Result<Company> Create(string companyName, CompanyOwner companyOwner)
 	{
 		if (string.IsNullOrWhiteSpace(companyName))
 			return Result.Failure<Company>(DomainErrors.Company.CompanyNameCannotBeEmpty);
 		
-		return new Company(companyName);
+		var company = new Company(companyName);
+		
+		var owner = Employee.CreateCompanyOwner(companyOwner.FirstName, companyOwner.LastName,
+			companyOwner.UserName, companyOwner.Email, company);
+		
+		if (owner.IsFailure)
+			return Result.Failure<Company>(owner.Error);
+		
+		company.AddEmployee(owner.Value);
+		
+		return company;
+	}
+	
+	public Result AddEmployee(Employee employee)
+	{
+		// if (_employees.Contains(employee))
+		// 	return Result.Failure(DomainErrors.Company.EmployeeAlreadyExists);
+		
+		_employees.Add(employee);
+		
+		return Result.Success();
 	}
 }
