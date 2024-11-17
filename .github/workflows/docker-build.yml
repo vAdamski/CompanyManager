@@ -24,7 +24,12 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build and Push Docker Image
+    - name: Build and Push Docker Image Api
       run: |
         docker build -f ./CompanyManager.Api/Dockerfile -t vazaras/companymanager-api:latest .
         docker push vazaras/companymanager-api:latest
+    
+    - name: Build and Push Docker Image Ids
+      run: |
+        docker build -f ./CompanyManager.IdentityServer/Dockerfile -t vazaras/companymanager-ids:latest .
+        docker push vazaras/companymanager-ids:latest
