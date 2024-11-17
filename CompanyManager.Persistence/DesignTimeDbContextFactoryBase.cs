@@ -31,7 +31,8 @@ public abstract class DesignTimeDbContextFactoryBase<TContext> : IDesignTimeDbCo
 			.AddEnvironmentVariables()
 			.Build();
 
-		var connectionString = configuration.GetConnectionString("DefaultConnection");
+		var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
+		                       configuration.GetConnectionString("DefaultConnection");
 
 		if (string.IsNullOrEmpty(connectionString))
 			throw new InvalidOperationException("Could not find a connection string named 'DefaultConnection'.");

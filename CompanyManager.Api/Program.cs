@@ -35,7 +35,7 @@ builder.Services.AddAuthentication("Bearer")
 	.AddJwtBearer("Bearer", options =>
 	{
         
-		options.Authority = Environment.GetEnvironmentVariable("Ids__Authority") ?? builder.Configuration["Ids:Authority"];
+		options.Authority = Environment.GetEnvironmentVariable("IDS_AUTHORITY") ?? builder.Configuration["Ids:Authority"];
 		options.SaveToken = true;
 		options.TokenValidationParameters = new TokenValidationParameters
 		{

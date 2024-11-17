@@ -1,19 +1,18 @@
+using CompanyManager.Application.Common.Interfaces.Application.Helpers;
 using CompanyManager.Infrastructure.RabbitMq.Abstractions;
-using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 
 namespace CompanyManager.Infrastructure.RabbitMq;
 
-public class RabbitMqConnection(IConfiguration configuration) : IRabbitMqConnection
+public class RabbitMqConnection(IVariablesGetter variablesGetter) : IRabbitMqConnection
 {
 	private IConnection? _connection;
 
 	public async Task<IConnection> GetConnectionAsync()
 	{
-		var uri = configuration["RabbitMq:Uri"] ?? throw new InvalidOperationException();
-		var username = configuration["RabbitMq:Username"] ?? throw new InvalidOperationException();
-		var password = configuration["RabbitMq:Password"] ?? throw new InvalidOperationException();
-		var hostName = configuration["RabbitMq:Host"] ?? throw new InvalidOperationException();
+		var username = variablesGetter.GetVariable("RabbitMq:Username", "RABBITMQ_USERNAME");
+		var password = variablesGetter.GetVariable("RabbitMq:Password", "RABBITMQ_PASSWORD");
+		var hostName = variablesGetter.GetVariable("RabbitMq:HostName", "RABBITMQ_HOSTNAME");
 		
 		if (_connection == null || !_connection.IsOpen)
 		{

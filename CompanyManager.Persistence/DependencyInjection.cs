@@ -9,9 +9,12 @@ public static class DependencyInjection
 {
 	public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
 	{
+		var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
+		                       configuration.GetConnectionString("DefaultConnection");
+
 		services.AddDbContext<AppDbContext>(options =>
-			options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-		
+			options.UseSqlServer(configuration.GetConnectionString(connectionString)));
+
 		services.AddScoped<IAppDbContext, AppDbContext>();
 		services.AddScoped<IUnitOfWork, UnitOfWork>();
 

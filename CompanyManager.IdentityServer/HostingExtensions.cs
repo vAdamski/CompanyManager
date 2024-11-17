@@ -16,8 +16,11 @@ internal static class HostingExtensions
 		builder.Services.AddTransient<IProfileService, ProfileService>();
 		builder.Services.AddRazorPages();
 
+		var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
+		                       builder.Configuration.GetConnectionString("DefaultConnection");
+
 		builder.Services.AddDbContext<ApplicationDbContext>(options =>
-			options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+			options.UseSqlServer(builder.Configuration.GetConnectionString(connectionString)));
 
 		builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 			.AddEntityFrameworkStores<ApplicationDbContext>()
