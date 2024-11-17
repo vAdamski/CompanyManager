@@ -31,11 +31,12 @@ builder.Services.AddApplication();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.TryAddScoped(typeof(ICurrentUserService), typeof(CurrentUserService));
 
+var idsAuthority = Environment.GetEnvironmentVariable("IDS_AUTHORITY") ?? builder.Configuration["Ids:Authority"];
+
 builder.Services.AddAuthentication("Bearer")
 	.AddJwtBearer("Bearer", options =>
 	{
-        
-		options.Authority = Environment.GetEnvironmentVariable("IDS_AUTHORITY") ?? builder.Configuration["Ids:Authority"];
+		options.Authority = idsAuthority;
 		options.SaveToken = true;
 		options.TokenValidationParameters = new TokenValidationParameters
 		{
@@ -69,8 +70,8 @@ builder.Services.AddSwaggerGen(options =>
 		{
 			AuthorizationCode = new OpenApiOAuthFlow
 			{
-				AuthorizationUrl = new Uri("https://localhost:6001/connect/authorize"),
-				TokenUrl = new Uri("https://localhost:6001/connect/token"),
+				AuthorizationUrl = new Uri($"{idsAuthority}/connect/authorize"),
+				TokenUrl = new Uri($"{idsAuthority}/connect/token"),
 				Scopes = new Dictionary<string, string>
 				{
 					{ "api1", "Full access" },
