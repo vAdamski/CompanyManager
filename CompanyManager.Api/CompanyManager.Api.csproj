@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>false</InvariantGlobalization>
         <RootNamespace>CompanyManager</RootNamespace>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -30,6 +31,9 @@
       </Content>
       <Content Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
 
