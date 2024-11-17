@@ -12,10 +12,16 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration
+	.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+	.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+	.AddEnvironmentVariables();
+
 var logger = new LoggerConfiguration()
 	.ReadFrom.Configuration(builder.Configuration)
 	.Enrich.FromLogContext()
 	.CreateLogger();
+
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
@@ -29,7 +35,7 @@ builder.Services.AddAuthentication("Bearer")
 	.AddJwtBearer("Bearer", options =>
 	{
         
-		options.Authority = "https://localhost:6001";
+		options.Authority = Environment.GetEnvironmentVariable("Ids__Authority") ?? builder.Configuration["Ids:Authority"];
 		options.SaveToken = true;
 		options.TokenValidationParameters = new TokenValidationParameters
 		{

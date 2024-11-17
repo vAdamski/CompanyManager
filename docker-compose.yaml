@@ -31,8 +31,8 @@ services:
       - ASPNETCORE_HTTPS_PORT=16001
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=sqlserver;Initial Catalog=CompanyManagerIdentityServerDatabase;Persist Security Info=False;User ID=sa;Password=Pass1234$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
-      - SWAGGER_REDIRECT_URI=https://localhost:16001/swagger/oauth2-redirect.html
-      - SWAGGER_ALLOWED_CORS_ORIGINS=https://localhost:16001
+      - SWAGGER_REDIRECT_URI=https://localhost:15001/swagger/oauth2-redirect.html
+      - SWAGGER_ALLOWED_CORS_ORIGINS=https://localhost:15001
       - ASPNETCORE_Kestrel__Certificates__Default__Password=Pass123$
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/companymanager-ids.pfx
     depends_on:

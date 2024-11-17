@@ -10,6 +10,11 @@ Log.Information("Starting up");
 try
 {
 	var builder = WebApplication.CreateBuilder(args);
+	
+	builder.Configuration
+		.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+		.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+		.AddEnvironmentVariables();
 
 	builder.Host.UseSerilog((ctx, lc) => lc
 		.WriteTo.Console(
