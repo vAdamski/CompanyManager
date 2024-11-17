@@ -5,6 +5,8 @@ using CompanyManager.Application.Common.Interfaces.Persistence;
 using CompanyManager.Domain.Common;
 using CompanyManager.Domain.Entities;
 using CompanyManager.Domain.Enums;
+using CompanyManager.Domain.Primitives;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
@@ -14,6 +16,7 @@ public class AppDbContext : DbContext, IAppDbContext
 {
 	private readonly IDateTime _dateTime;
 	private readonly ICurrentUserService _userService;
+	private readonly IPublisher _publisher;
 
 	public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
 	{
@@ -21,10 +24,11 @@ public class AppDbContext : DbContext, IAppDbContext
 	}
 	
 	public AppDbContext(DbContextOptions<AppDbContext> options, IDateTime dateTime,
-		ICurrentUserService userService) : base(options)
+		ICurrentUserService userService, IPublisher publisher) : base(options)
 	{
 		_dateTime = dateTime;
 		_userService = userService;
+		_publisher = publisher;
 	}
 
 	public DatabaseFacade Database => base.Database;
@@ -44,6 +48,17 @@ public class AppDbContext : DbContext, IAppDbContext
 	}
 	
 	public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+	{
+		HandleAuditableEntities();
+
+		var result = base.SaveChangesAsync(cancellationToken);
+		
+		ExecuteDomainEvents();
+		
+		return result;
+	}
+
+	private void HandleAuditableEntities()
 	{
 		foreach (var entry in ChangeTracker.Entries<AuditableEntity>())
 		{
@@ -82,7 +97,19 @@ public class AppDbContext : DbContext, IAppDbContext
 					break;
 			}
 		}
+	}
 
-		return base.SaveChangesAsync(cancellationToken);
+	private void ExecuteDomainEvents()
+	{
+		var domainEvents = ChangeTracker.Entries<AuditableEntity>()
+			.Select(x => x.Entity)
+			.Where(x => x.DomainEvents.Any())
+			.SelectMany(x => x.DomainEvents)
+			.ToList();
+		
+		foreach (var domainEvent in domainEvents)
+		{
+			_publisher.Publish(domainEvent);
+		}
 	}
 }

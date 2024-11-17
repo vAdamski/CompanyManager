@@ -1,8 +1,9 @@
 using CompanyManager.Domain.Enums;
+using CompanyManager.Domain.Primitives;
 
 namespace CompanyManager.Domain.Common;
 
-public class AuditableEntity
+public class AuditableEntity : EntityEvent
 {
 	public Guid Id { get; set; } = Guid.NewGuid();
 	public string CreatedBy { get; set; } = "";
