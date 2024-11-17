@@ -9,14 +9,11 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+      <PackageReference Include="RabbitMQ.Client" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\CompanyManager.Application\CompanyManager.Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="RabbitMq\" />
     </ItemGroup>
 
 </Project>

@@ -21,10 +21,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common\Interfaces\Application\" />
       <Folder Include="Common\Managers\" />
       <Folder Include="Common\Models\" />
-      <Folder Include="Common\Services\" />
     </ItemGroup>
 
 </Project>
