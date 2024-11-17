@@ -21,6 +21,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=guest
         
   companymanager-ids:
+    pull_policy: always
     image: vazaras/companymanager-ids:latest
     container_name: companyManagerIds
     ports:
@@ -43,6 +44,7 @@ services:
       - ${HOME}/.keys:/app/keys
       
   companymanager-api:
+    pull_policy: always
     image: vazaras/companymanager-api:latest
     container_name: companyManagerApi
     ports:

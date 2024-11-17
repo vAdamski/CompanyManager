@@ -42,6 +42,14 @@ internal static class HostingExtensions
 			.AddProfileService<ProfileService>();
 
 		builder.Services.AddAuthentication();
+		
+		builder.Services.AddCors(options =>
+		{
+			options.AddPolicy("CORS", policy => policy
+				.AllowAnyOrigin()
+				.AllowAnyHeader()
+				.AllowAnyMethod());
+		});
 
 		return builder.Build();
 	}
@@ -58,6 +66,9 @@ internal static class HostingExtensions
 		app.UseStaticFiles();
 		app.UseRouting();
 		app.UseIdentityServer();
+		
+		app.UseCors("CORS");
+		
 		app.UseAuthorization();
 
 		app.MapRazorPages()
