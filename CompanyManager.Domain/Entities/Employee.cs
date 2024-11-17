@@ -21,7 +21,7 @@ public class Employee : AuditableEntity
 
 	private Employee() { }
 
-	private Employee(string firstName, string lastName, string userName, string email, Company company)
+	private Employee(string firstName, string lastName, string userName, string email, Company company, List<Employee> supervisors)
 	{
 		FirstName = firstName;
 		LastName = lastName;
@@ -29,11 +29,12 @@ public class Employee : AuditableEntity
 		Email = email;
 		CompanyId = company.Id;
 		Company = company;
+		_supervisors = supervisors.Select(s => EmployeeSupervisor.Create(this, s)).ToList();
 	}
 
 	public static Employee Create(string firstName, string lastName, string userName, string email, Company company)
 	{
-		var employee = new Employee(firstName, lastName, userName, email, company);
+		var employee = new Employee(firstName, lastName, userName, email, company, new List<Employee>());
 		employee.Raise(new EmployeeCreatedEvent(Guid.NewGuid(), employee));
 		return employee;
 	}
