@@ -1,7 +1,7 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 COPY ["CompanyManager.IdentityServer/CompanyManager.IdentityServer.csproj", "CompanyManager.IdentityServer/"]
-RUN dotnet restore "CompanyManager.Api/CompanyManager.IdentityServer.csproj"
+RUN dotnet restore "CompanyManager.IdentityServer/CompanyManager.IdentityServer.csproj"
 COPY . .
 WORKDIR "/src/CompanyManager.IdentityServer"
 RUN dotnet build "CompanyManager.IdentityServer.csproj" -c Release -o /app/build
