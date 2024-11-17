@@ -30,7 +30,7 @@ services:
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=16001
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_CONNECTION_STRING=Server=sqlserver;Initial Catalog=CompanyManagerIdentityServerDatabase;Persist Security Info=False;User ID=sa;Password=Pass1234$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
+      - DB_CONNECTION_STRING=Server=host.docker.internal,1433;Initial Catalog=CompanyManagerIdentityServerDatabase;Persist Security Info=False;User ID=sa;Password=Pass1234$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
       - SWAGGER_REDIRECT_URI=https://localhost:15001/swagger/oauth2-redirect.html
       - SWAGGER_ALLOWED_CORS_ORIGINS=https://localhost:15001
       - ASPNETCORE_Kestrel__Certificates__Default__Password=Pass123$
@@ -56,7 +56,7 @@ services:
       - ASPNETCORE_URLS=https://+;http://+
       - ASPNETCORE_HTTPS_PORT=15001
       - ASPNETCORE_ENVIRONMENT=Development
-      - DB_CONNECTION_STRING=Server=sqlserver;Initial Catalog=CompanyManagerDatabase;Persist Security Info=False;User ID=sa;Password=Pass1234$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
+      - DB_CONNECTION_STRING=Server=host.docker.internal,1433;Initial Catalog=CompanyManagerDatabase;Persist Security Info=False;User ID=sa;Password=Pass1234$;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;
       - RABBITMQ_HOSTNAME=rabbitmq
       - RABBITMQ_USERNAME=guest
       - RABBITMQ_PASSWORD=guest
