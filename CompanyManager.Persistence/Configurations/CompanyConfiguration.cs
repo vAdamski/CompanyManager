@@ -16,5 +16,10 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 			.WithOne(x => x.Company)
 			.HasForeignKey(x => x.CompanyId)
 			.OnDelete(DeleteBehavior.Cascade);
+
+		builder.HasMany(x => x.Employees)
+			.WithOne(x => x.Company)
+			.HasForeignKey(x => x.CompanyId)
+			.OnDelete(DeleteBehavior.Cascade);
 	}
 }
