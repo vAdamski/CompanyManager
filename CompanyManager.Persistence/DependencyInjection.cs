@@ -13,7 +13,7 @@ public static class DependencyInjection
 		                       configuration.GetConnectionString("DefaultConnection");
 
 		services.AddDbContext<AppDbContext>(options =>
-			options.UseSqlServer(configuration.GetConnectionString(connectionString)));
+			options.UseSqlServer(connectionString));
 
 		services.AddScoped<IAppDbContext, AppDbContext>();
 		services.AddScoped<IUnitOfWork, UnitOfWork>();

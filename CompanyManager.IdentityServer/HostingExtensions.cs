@@ -18,9 +18,9 @@ internal static class HostingExtensions
 
 		var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
 		                       builder.Configuration.GetConnectionString("DefaultConnection");
-
+		
 		builder.Services.AddDbContext<ApplicationDbContext>(options =>
-			options.UseSqlServer(builder.Configuration.GetConnectionString(connectionString)));
+			options.UseSqlServer(connectionString));
 
 		builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 			.AddEntityFrameworkStores<ApplicationDbContext>()
