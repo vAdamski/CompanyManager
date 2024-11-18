@@ -3,17 +3,27 @@ using CompanyManager.Domain.Events;
 
 namespace CompanyManager.Application.Actions.EmployeeActions.Events.EmployeeCreated;
 
-public class CreateUserInIdsRequest(CreateEmployeeInIdsEvent notification)
+public class CreateUserInIdsRequest
 {
-	public string FirstName { get; init; } = notification.Employee.FirstName;
-	public string LastName { get; init; } = notification.Employee.LastName;
-	public string Email { get; init; } = notification.Employee.Email;
-	public string UserName { get; init; } = notification.Employee.UserName;
-	public List<string> Roles { get; init; } = notification.Roles;
-	public List<string> Claims { get; init; } = notification.Claims;
-	
-	public string ToJson()
+	public CreateUserInIdsRequest()
 	{
-		return JsonSerializer.Serialize(this);
+		
 	}
+	
+	public CreateUserInIdsRequest(CreateEmployeeInIdsEvent notification)
+	{
+		FirstName = notification.Employee.FirstName;
+		LastName = notification.Employee.LastName;
+		Email = notification.Employee.Email;
+		UserName = notification.Employee.UserName;
+		Roles = notification.Roles;
+		Claims = notification.Claims;
+	}
+
+	public string FirstName { get; set; }
+	public string LastName { get; set; }
+	public string Email { get; set; }
+	public string UserName { get; set; }
+	public List<string> Roles { get; set; }
+	public List<string> Claims { get; set; }
 }
