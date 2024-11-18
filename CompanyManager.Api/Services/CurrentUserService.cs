@@ -10,7 +10,7 @@ public class CurrentUserService : ICurrentUserService
 
 	public CurrentUserService(IHttpContextAccessor httpContextAccessor)
 	{
-		Email = httpContextAccessor.HttpContext?.User?.FindFirstValue("email");
+		Email = httpContextAccessor.HttpContext?.User?.FindFirstValue("Email");
 
 		IsAuthenticated = !string.IsNullOrEmpty(Email);
 	}
