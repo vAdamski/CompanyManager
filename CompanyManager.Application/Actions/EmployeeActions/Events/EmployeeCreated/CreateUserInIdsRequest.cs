@@ -26,4 +26,9 @@ public class CreateUserInIdsRequest
 	public string UserName { get; set; }
 	public List<string> Roles { get; set; }
 	public List<string> Claims { get; set; }
+	
+	public string ToJson()
+	{
+		return JsonSerializer.Serialize(this);
+	}
 }
