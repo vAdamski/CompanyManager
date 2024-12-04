@@ -1,4 +1,4 @@
-using CompanyManager.Application.Common.Interfaces.Application.Services;
+using CompanyManager.Application.Common.Interfaces.Infrastructure.Abstractions;
 using CompanyManager.Domain.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 namespace CompanyManager.Application.Actions.EmployeeActions.Events.EmployeeCreated;
 
 public class EmployeeCreatedEventHandler(
-	IIdsQueueSenderService idsQueueSenderService,
+	IAzureServiceBusSender azureServiceBusSender,
 	ILogger<EmployeeCreatedEventHandler> logger)
 	: INotificationHandler<CreateEmployeeInIdsEvent>
 {
@@ -15,6 +15,14 @@ public class EmployeeCreatedEventHandler(
 		// Send request to IDS to create user
 		logger.LogDebug("EmployeeCreatedEventHandler: Handling EmployeeCreatedEvent");
 
-		await idsQueueSenderService.SendMessageToIdsQueueAsync(new CreateUserInIdsRequest(notification).ToJson());
+		try
+		{
+			await azureServiceBusSender.SendAsync(new CreateUserInIdsRequest(notification));
+		}
+		catch (Exception e)
+		{
+			logger.LogError(e, "EmployeeCreatedEventHandler: Error while sending message to IDS queue");
+			throw;
+		}
 	}
 }
