@@ -15,7 +15,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddApi();
 
-builder.Services.ConfigureMassTransit(builder.Configuration);
+// builder.Services.ConfigureMassTransit(builder.Configuration);
 builder.Services.ConfigureAuthentication(builder.Configuration);
 builder.Services.ConfigurePolices();
 builder.Services.ConfigureSwagger(builder.Configuration);

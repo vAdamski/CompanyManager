@@ -1,3 +1,4 @@
+using CompanyManager.Application.Actions.EmployeeActions.Events.EmployeeCreated;
 using MassTransit;
 
 namespace CompanyManager.Configurations;
@@ -8,9 +9,13 @@ public static class MassTransitConfiguration
 	{
 		services.AddMassTransit(x =>
 		{
+			x.SetKebabCaseEndpointNameFormatter();
+			
 			x.UsingAzureServiceBus((context, cfg) =>
 			{
 				cfg.Host(configuration.GetConnectionString("AzureServiceBus"));
+
+				cfg.Send<CreateUserInIdsRequest>(s => s.UseSessionIdFormatter(c => c.RequestId.ToString()));
 			});
 		});
 
