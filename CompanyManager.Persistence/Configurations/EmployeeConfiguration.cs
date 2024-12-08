@@ -14,7 +14,10 @@ public class EmployeeConfiguration : IEntityTypeConfiguration<Employee>
 		builder.Property(x => x.FirstName).IsRequired().HasMaxLength(256);
 		builder.Property(x => x.LastName).IsRequired().HasMaxLength(256);
 		builder.Property(x => x.UserName).IsRequired().HasMaxLength(256);
+		
 		builder.Property(x => x.Email).IsRequired().HasMaxLength(256);
+		builder.HasIndex(x => x.Email).IsUnique();
+		
 
 		builder.HasMany(e => e.Supervisors)
 			.WithOne(es => es.Employee)
