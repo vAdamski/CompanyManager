@@ -9,14 +9,17 @@ namespace CompanyManager.IdentityServer.Workers;
 
 public class CreateUserInIdsRequestHandler : BackgroundService
 {
-	private const string ConnectionString = "Endpoint=sb://localhost;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;";
+	private const string ConnectionString =
+		"Endpoint=sb://localhost;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;";
+
 	private const string QueueName = "CompanyManager.IdentityServer.CreateUser";
-	
+
 	private readonly ILogger<CreateUserInIdsRequestHandler> _logger;
 	private readonly IServiceProvider _serviceProvider;
 	private readonly ServiceBusProcessor _processor;
 
-	public CreateUserInIdsRequestHandler(ILogger<CreateUserInIdsRequestHandler> logger, IServiceProvider serviceProvider)
+	public CreateUserInIdsRequestHandler(ILogger<CreateUserInIdsRequestHandler> logger,
+		IServiceProvider serviceProvider)
 	{
 		_logger = logger;
 		_serviceProvider = serviceProvider;
@@ -28,7 +31,7 @@ public class CreateUserInIdsRequestHandler : BackgroundService
 			MaxConcurrentCalls = 1
 		});
 	}
-	
+
 	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
 		_processor.ProcessMessageAsync += OnMessageReceivedAsync;
@@ -46,7 +49,7 @@ public class CreateUserInIdsRequestHandler : BackgroundService
 			_logger.LogInformation($"Received message: {messageBody}");
 
 			var myMessage = JsonSerializer.Deserialize<CreateUserInIdsRequest>(messageBody);
-			
+
 			if (myMessage == null)
 			{
 				_logger.LogError("Failed to deserialize message");
@@ -80,15 +83,16 @@ public class CreateUserInIdsRequestHandler : BackgroundService
 		var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
 		var userBuilder = new UserBuilder(userMgr, roleMgr);
-		
+
 		await CreateUser(userBuilder, message);
 	}
 
 	private async Task CreateUser(UserBuilder userBuilder, CreateUserInIdsRequest message)
 	{
-		await userBuilder.CreateUserAsync(message.FirstName, message.LastName, message.Email, "Pass123$", message.Roles);
+		await userBuilder.CreateUserAsync(message.FirstName, message.LastName, message.Email, "Pass123$",
+			roles: message.Roles);
 	}
-	
+
 	public override async Task StopAsync(CancellationToken stoppingToken)
 	{
 		_logger.LogInformation("Stopping Service Bus Listener...");

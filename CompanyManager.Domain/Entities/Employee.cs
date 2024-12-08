@@ -49,7 +49,7 @@ public class Employee : AuditableEntity
 	}
 
 	private static Result<Employee> CreateEmployee(string firstName, string lastName, string userName, string email,
-		Company company, List<string> roles)
+		Company company, List<string>? roles)
 	{
 		var employee = new Employee(firstName, lastName, userName, email, company, new List<Employee>());
 		var eventId = Guid.NewGuid();

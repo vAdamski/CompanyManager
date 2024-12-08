@@ -24,8 +24,8 @@ public class CreateUserInIdsRequest
 	public string LastName { get; set; }
 	public string Email { get; set; }
 	public string UserName { get; set; }
-	public List<string> Roles { get; set; }
-	public List<string> Claims { get; set; }
+	public List<string>? Roles { get; set; }
+	public List<string>? Claims { get; set; }
 	
 	public string ToJson()
 	{
