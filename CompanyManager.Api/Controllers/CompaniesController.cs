@@ -11,6 +11,7 @@ public class CompaniesController(ISender sender) : BaseController(sender)
 	public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyCommand command)
 	{
 		var result = await Sender.Send(command);
-		return Ok(result);
+		
+		return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
 	}
 }
