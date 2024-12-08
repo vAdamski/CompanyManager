@@ -9,8 +9,8 @@ namespace CompanyManager.IdentityServer.Workers;
 
 public class CreateUserInIdsRequestHandler : BackgroundService
 {
-	private const string ConnectionString = "";
-	private const string QueueName = "";
+	private const string ConnectionString = "Endpoint=sb://localhost;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SAS_KEY_VALUE;UseDevelopmentEmulator=true;";
+	private const string QueueName = "CompanyManager.IdentityServer.CreateUser";
 	
 	private readonly ILogger<CreateUserInIdsRequestHandler> _logger;
 	private readonly IServiceProvider _serviceProvider;
@@ -75,7 +75,6 @@ public class CreateUserInIdsRequestHandler : BackgroundService
 	{
 		_logger.LogInformation($"Processing message: {JsonSerializer.Serialize(message)}");
 
-		// Get required services
 		using var scope = _serviceProvider.CreateScope();
 		var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 		var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
