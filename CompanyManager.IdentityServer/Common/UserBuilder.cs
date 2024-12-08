@@ -15,7 +15,7 @@ public class UserBuilder
             _roleManager = roleManager;
         }
 
-        public async Task<ApplicationUser> CreateUserAsync(string firstName, string lastName, string email, string password, string role)
+        public async Task<ApplicationUser> CreateUserAsync(string firstName, string lastName, string email, string password, List<string> roles)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
@@ -34,10 +34,15 @@ public class UserBuilder
                     throw new Exception(result.Errors.First().Description);
                 }
 
-                var roleAddResult = await _userManager.AddToRoleAsync(user, role);
-                if (!roleAddResult.Succeeded)
+                foreach (var role in roles)
                 {
-                    throw new Exception(roleAddResult.Errors.First().Description);
+                    await EnsureRoleAsync(role);
+                    
+                    var roleAddResult = await _userManager.AddToRoleAsync(user, role);
+                    if (!roleAddResult.Succeeded)
+                    {
+                        throw new Exception(roleAddResult.Errors.First().Description);
+                    }
                 }
 
                 Log.Debug($"{firstName} {lastName} created");

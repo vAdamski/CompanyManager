@@ -2,6 +2,7 @@ using Duende.IdentityServer;
 using CompanyManager.IdentityServer.Data;
 using CompanyManager.IdentityServer.Models;
 using CompanyManager.IdentityServer.Services;
+using CompanyManager.IdentityServer.Workers;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,9 @@ internal static class HostingExtensions
 				.AllowAnyMethod()
 				.Build());
 		});
+		
+		builder.Services.AddHostedService<CreateUserInIdsRequestHandler>();
+
 
 		return builder.Build();
 	}

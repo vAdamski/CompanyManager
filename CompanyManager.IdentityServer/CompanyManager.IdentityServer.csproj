@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
         <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="7.0.8" />
 
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="9.0.0" />
@@ -29,5 +30,9 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CompanyManager.Shared\CompanyManager.Shared.csproj" />
     </ItemGroup>
 </Project>

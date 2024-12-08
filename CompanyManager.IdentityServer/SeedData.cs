@@ -13,21 +13,18 @@ public class SeedData
 {
 	public static void EnsureSeedData(WebApplication app)
 	{
-		using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
-		{
-			var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-			context.Database.Migrate();
+		using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+		
+		var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+		context.Database.Migrate();
 
-			var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-			var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+		var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+		var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-			var userBuilder = new UserBuilder(userMgr, roleMgr);
+		var userBuilder = new UserBuilder(userMgr, roleMgr);
 
-			userBuilder.EnsureRoleAsync("User").Wait();
-
-			userBuilder.CreateUserAsync("Adam", "Ludwiczak", "adam.ludwiczak98@gmail.com", "Pass123$", "User").Wait();
+		userBuilder.CreateUserAsync("Adam", "Ludwiczak", "adam.ludwiczak98@gmail.com", "Pass123$", ["User"]).Wait();
 			
-			Log.Information("Seeding complete");
-		}
+		Log.Information("Seeding complete");
 	}
 }
