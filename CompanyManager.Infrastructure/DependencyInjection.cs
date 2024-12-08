@@ -5,6 +5,7 @@ using CompanyManager.Application.Common.Interfaces.Infrastructure.Services;
 using CompanyManager.Infrastructure.AzureServiceBus;
 using CompanyManager.Infrastructure.Helpers;
 using CompanyManager.Infrastructure.Services;
+using CompanyManager.Shared.ServiceBusDtos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

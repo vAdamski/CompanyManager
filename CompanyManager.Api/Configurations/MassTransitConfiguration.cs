@@ -1,4 +1,5 @@
 using CompanyManager.Application.Actions.EmployeeActions.Events.EmployeeCreated;
+using CompanyManager.Shared.ServiceBusDtos;
 using MassTransit;
 
 namespace CompanyManager.Configurations;

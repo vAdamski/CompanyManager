@@ -1,5 +1,6 @@
 using CompanyManager.Application.Common.Interfaces.Infrastructure.Abstractions;
 using CompanyManager.Domain.Events;
+using CompanyManager.Shared.ServiceBusDtos;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

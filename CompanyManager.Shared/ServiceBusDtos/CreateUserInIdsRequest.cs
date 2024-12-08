@@ -1,7 +1,7 @@
 using System.Text.Json;
 using CompanyManager.Domain.Events;
 
-namespace CompanyManager.Application.Actions.EmployeeActions.Events.EmployeeCreated;
+namespace CompanyManager.Shared.ServiceBusDtos;
 
 public class CreateUserInIdsRequest
 {
