@@ -1,5 +1,6 @@
 using CompanyManager.Application.Actions.CompanyActions.Commands.CreateCompany;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyManager.Controllers;
@@ -8,6 +9,7 @@ namespace CompanyManager.Controllers;
 public class CompaniesController(ISender sender) : BaseController(sender)
 {
 	[HttpPost]
+	[Authorize(Policy = "Admin")]
 	public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyCommand command)
 	{
 		var result = await Sender.Send(command);

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace CompanyManager.Controllers;
 
 [ApiController]
-[AllowAnonymous]
 [Route("api/[controller]")]
 public class HealthController : BaseController
 {
@@ -32,6 +31,13 @@ public class HealthController : BaseController
 	public async Task<IActionResult> PolicyUser()
 	{
 		return Ok("Policy User");
+	}
+	
+	[HttpGet("policy-admin")]
+	[Authorize(Policy = "Admin")]
+	public async Task<IActionResult> PolicyAdmin()
+	{
+		return Ok("Policy Admin");
 	}
 	
 	[Authorize(Policy = "ApiScope")]

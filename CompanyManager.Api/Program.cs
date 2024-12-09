@@ -23,10 +23,7 @@ builder.Services.ConfigureCors("CORS");
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers()
-	.AddJsonOptions(opt =>
-	{
-		opt.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
-	});
+	.AddJsonOptions(opt => { opt.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter()); });
 
 builder.Services.AddEndpointsApiExplorer();
 

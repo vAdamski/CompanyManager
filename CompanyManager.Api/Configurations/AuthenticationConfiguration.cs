@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using IdentityModel;
 using Microsoft.IdentityModel.Tokens;
 
@@ -7,6 +9,8 @@ public static class AuthenticationConfiguration
 {
 	public static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
 	{
+		JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+		
 		var idsAuthority = Environment.GetEnvironmentVariable("IDS_AUTHORITY") ?? configuration["Ids:Authority"];
 		
 		services.AddAuthentication("Bearer")
@@ -18,7 +22,7 @@ public static class AuthenticationConfiguration
 				{
 					ValidateAudience = false,
 					NameClaimType = JwtClaimTypes.Name,
-					RoleClaimType = JwtClaimTypes.Role
+					RoleClaimType = ClaimsIdentity.DefaultRoleClaimType
 				};
 			});
 		
