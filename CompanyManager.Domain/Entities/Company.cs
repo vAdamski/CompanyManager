@@ -35,18 +35,32 @@ public class Company : AuditableEntity
 		if (owner.IsFailure)
 			return Result.Failure<Company>(owner.Error);
 		
-		company.AddEmployee(owner.Value);
+		var result = company.AddEmployee(owner.Value);
+		
+		if (result.IsFailure)
+			return Result.Failure<Company>(result.Error);
 		
 		return company;
 	}
 	
-	public Result AddEmployee(Employee employee)
+	public Result<Employee> AddEmployee(Employee employee)
 	{
-		// if (_employees.Contains(employee))
-		// 	return Result.Failure(DomainErrors.Company.EmployeeAlreadyExists);
-		
 		_employees.Add(employee);
 		
-		return Result.Success();
+		return Result.Success(employee);
+	}
+	
+	public Result<Employee> CreateEmployee(string firstName, string lastName, string userName, string email,
+		List<Employee>? listOfSupervisors)
+	{
+		var employeeResult = Employee.Create(firstName, lastName, userName, email,listOfSupervisors, this);
+		if (employeeResult.IsFailure)
+			return Result.Failure<Employee>(employeeResult.Error);
+
+		var addEmployeeResult = AddEmployee(employeeResult.Value);
+		if (addEmployeeResult.IsFailure)
+			return Result.Failure<Employee>(addEmployeeResult.Error);
+
+		return Result.Success(employeeResult.Value);
 	}
 }

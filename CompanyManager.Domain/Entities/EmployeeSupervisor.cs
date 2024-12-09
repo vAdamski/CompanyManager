@@ -1,3 +1,5 @@
+using CompanyManager.Domain.Common;
+
 namespace CompanyManager.Domain.Entities;
 
 public class EmployeeSupervisor
@@ -18,8 +20,8 @@ public class EmployeeSupervisor
     public Guid SupervisorId { get; private set; }
     public Employee Supervisor { get; private set; }
     
-    public static EmployeeSupervisor Create(Employee employee, Employee supervisor)
+    public static Result<EmployeeSupervisor> Create(Employee employee, Employee supervisor)
     {
-        return new EmployeeSupervisor(employee, supervisor);
+        return Result.Success(new EmployeeSupervisor(employee, supervisor));
     }
 }

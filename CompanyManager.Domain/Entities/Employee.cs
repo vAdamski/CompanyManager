@@ -32,31 +32,53 @@ public class Employee : AuditableEntity
 		Email = email;
 		CompanyId = company.Id;
 		Company = company;
-		_supervisors = supervisors.Select(s => EmployeeSupervisor.Create(this, s)).ToList();
+		_supervisors = supervisors.Select(s => EmployeeSupervisor.Create(this, s).Value).ToList();
 	}
 
 	public static Result<Employee> Create(string firstName, string lastName, string userName, string email,
-		Company company)
+		List<Employee>? listOfSupervisors, Company company)
 	{
-		return CreateEmployee(firstName, lastName, userName, email, company, new List<string> { "User" });
+		return CreateEmployee(
+			firstName,
+			lastName,
+			userName,
+			email,
+			listOfSupervisors,
+			company,
+			new List<string> { "User" });
 	}
 
 	public static Result<Employee> CreateCompanyOwner(string firstName, string lastName, string userName, string email,
 		Company company)
 	{
-		return CreateEmployee(firstName, lastName, userName, email, company,
+		return CreateEmployee(firstName, lastName, userName, email, null, company,
 			new List<string> { "User", "CompanyOwner" });
 	}
 
 	private static Result<Employee> CreateEmployee(string firstName, string lastName, string userName, string email,
+		List<Employee>? listOfSupervisors,
 		Company company, List<string>? roles)
 	{
 		var employee = new Employee(firstName, lastName, userName, email, company, new List<Employee>());
+		
+		listOfSupervisors?.ForEach(s => employee.AddSupervisor(s));
+		
 		var eventId = Guid.NewGuid();
 		var claims = new List<string>();
 
 		employee.Raise(new CreateEmployeeInIdsEvent(eventId, employee, roles, claims));
 
 		return employee;
+	}
+
+	public Result AddSupervisor(Employee supervisor)
+	{
+		var result = EmployeeSupervisor.Create(this, supervisor);
+		if (result.IsFailure)
+			return Result.Failure(result.Error);
+
+		_supervisors.Add(result.Value);
+
+		return Result.Success();
 	}
 }

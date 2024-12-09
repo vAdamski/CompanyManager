@@ -1,3 +1,4 @@
+using CompanyManager.Application.Common.CustomValidators;
 using CompanyManager.Application.Common.Interfaces.Persistence;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,22 @@ public class CreateCompanyCommandValidator : AbstractValidator<CreateCompanyComm
 		RuleFor(x => x.CompanyOwnerEmail)
 			.EmailAddress()
 			.WithMessage("Invalid email address")
-			.MustAsync(async (email, cancellationToken) =>
-			{
-				return await ctx.Employees.AllAsync(x => x.Email != email, cancellationToken);
-			})
-			.WithMessage("Company with this email already exists");
+			.SetValidator(new EmailIsTakenValidator(ctx));
+
+		RuleFor(x => x.CompanyName)
+			.NotEmpty()
+			.WithMessage("Company name cannot be empty");
+		
+		RuleFor(x => x.CompanyOwnerFirstName)
+			.NotEmpty()
+			.WithMessage("Company owner first name cannot be empty");
+
+		RuleFor(x => x.CompanyOwnerLastName)
+			.NotEmpty()
+			.WithMessage("Company owner last name cannot be empty");
+		
+		RuleFor(x => x.CompanyOwnerUserName)
+			.NotEmpty()
+			.WithMessage("Company owner username cannot be empty");
 	}
 }

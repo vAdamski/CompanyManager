@@ -17,6 +17,12 @@ public static class PolicesConfiguration
 				policy.RequireClaim("scope", "api1");
 				policy.RequireRole("User");
 			});
+			options.AddPolicy("CompanyOwner", policy =>
+			{
+				policy.RequireAuthenticatedUser();
+				policy.RequireClaim("scope", "api1");
+				policy.RequireRole("User", "CompanyOwner");
+			});
 			options.AddPolicy("Admin", policy =>
 			{
 				policy.RequireAuthenticatedUser();

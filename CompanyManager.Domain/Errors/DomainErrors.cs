@@ -35,5 +35,9 @@ public static class DomainErrors
 		public static readonly Error CompanyNameCannotBeEmpty = new(
 			"Company.CompanyNameCannotBeEmpty",
 			"Company name cannot be empty.");
+		
+		public static readonly Error CompanyNotFound = new(
+			"Company.CompanyNotFound",
+			"Company not found.");
 	}
 }
