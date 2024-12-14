@@ -1,5 +1,7 @@
 using CompanyManager.Application.Actions.EmployeeActions.Commands.CreateCompanyEmployee;
 using CompanyManager.Application.Actions.EmployeeActions.Commands.UpdateCompanyEmployee;
+using CompanyManager.Application.Actions.EmployeeActions.Queries.GetEmployee;
+using CompanyManager.Application.Actions.EmployeeActions.Queries.GetEmployees;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +13,18 @@ public class EmployeesController(ISender sender) : BaseController(sender)
 {
 	[HttpGet]
 	[Authorize(Policy = "CompanyOwner")]
-	public async Task<IActionResult> GetCompanyEmployees()
+	public async Task<IActionResult> GetCompanyEmployees([FromQuery] Guid companyId)
 	{
-		throw new NotImplementedException();
+		var result = await Sender.Send(new GetEmployeesQuery(companyId));
+		return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
 	}
 	
 	[HttpGet("{employeeId}")]
 	[Authorize(Policy = "CompanyOwner")]
 	public async Task<IActionResult> GetCompanyEmployee(Guid employeeId)
 	{
-		throw new NotImplementedException();
+		var result = await Sender.Send(new GetEmployeeQuery(employeeId));
+		return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
 	}
 	
 	[HttpPost]
