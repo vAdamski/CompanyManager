@@ -8,7 +8,7 @@ public static class SwaggerConfiguration
 	public static IServiceCollection ConfigureSwagger(this IServiceCollection services, IConfiguration configuration)
 	{
 		var idsAuthority = Environment.GetEnvironmentVariable("IDS_AUTHORITY") ?? configuration["Ids:Authority"];
-		
+
 		services.AddSwaggerGen(options =>
 		{
 			options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
@@ -50,10 +50,10 @@ public static class SwaggerConfiguration
 		});
 
 		services.AddSwaggerGen();
-		
+
 		return services;
 	}
-	
+
 	public static IApplicationBuilder UseSwaggerConfiguration(this IApplicationBuilder app)
 	{
 		app.UseSwagger();
@@ -64,7 +64,7 @@ public static class SwaggerConfiguration
 			options.OAuthClientSecret("secret");
 			options.OAuthUsePkce();
 		});
-		
+
 		return app;
 	}
 }
