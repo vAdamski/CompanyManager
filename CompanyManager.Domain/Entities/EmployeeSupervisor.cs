@@ -6,6 +6,12 @@ public class EmployeeSupervisor
 {
     private EmployeeSupervisor() { }
     
+    private EmployeeSupervisor(Guid employeeId, Guid supervisorId)
+    {
+        EmployeeId = employeeId;
+        SupervisorId = supervisorId;
+    }
+    
     private EmployeeSupervisor(Employee employee, Employee supervisor)
     {
         EmployeeId = employee.Id;
@@ -23,5 +29,10 @@ public class EmployeeSupervisor
     public static Result<EmployeeSupervisor> Create(Employee employee, Employee supervisor)
     {
         return Result.Success(new EmployeeSupervisor(employee, supervisor));
+    }
+    
+    public static Result<EmployeeSupervisor> Create(Guid employeeId, Guid supervisorId)
+    {
+        return Result.Success(new EmployeeSupervisor(employeeId, supervisorId));
     }
 }

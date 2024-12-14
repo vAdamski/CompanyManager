@@ -23,6 +23,7 @@ public static class DependencyInjection
 			var connectionString = configuration.GetConnectionString("AzureServiceBus");
 
 			cfg.AddQueue(connectionString, typeof(CreateUserInIdsRequest), "CompanyManager.IdentityServer.CreateUser");
+			cfg.AddQueue(connectionString, typeof(UpdateUserInIdsRequest), "CompanyManager.IdentityServer.UpdateUser");
 		});
 
 		return services;

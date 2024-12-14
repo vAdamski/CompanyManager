@@ -22,4 +22,8 @@
       <ProjectReference Include="..\CompanyManager.Shared\CompanyManager.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Actions\EmployeeActions\Queries\" />
+    </ItemGroup>
+
 </Project>

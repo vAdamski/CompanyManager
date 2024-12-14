@@ -7,7 +7,7 @@ var connectionString =
 // Receive message from the queue CompanyManager.IdentityServer.CreateUser
 await using (var client = new ServiceBusClient(connectionString))
 {
-	ServiceBusReceiver receiver = client.CreateReceiver("CompanyManager.IdentityServer.CreateUser");
+	ServiceBusReceiver receiver = client.CreateReceiver("CompanyManager.IdentityServer.UpdateUser");
 
 	var messages = await receiver.ReceiveMessagesAsync(maxMessages: 10, maxWaitTime: TimeSpan.FromSeconds(5));
 	

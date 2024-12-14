@@ -13,7 +13,6 @@ public class EmployeeCreatedEventHandler(
 {
 	public async Task Handle(CreateEmployeeInIdsEvent notification, CancellationToken cancellationToken)
 	{
-		// Send request to IDS to create user
 		logger.LogDebug("EmployeeCreatedEventHandler: Handling EmployeeCreatedEvent");
 
 		try

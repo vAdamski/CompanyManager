@@ -81,4 +81,18 @@ public class Employee : AuditableEntity
 
 		return Result.Success();
 	}
+
+	public Result UpdateEmployee(string firstName, string lastName, string userName, string email, List<Guid> supervisors)
+	{
+		FirstName = firstName;
+		LastName = lastName;
+		UserName = userName;
+		// Email is not updated, it is needed to find user in IDS
+		
+		_supervisors = supervisors.Select(s => EmployeeSupervisor.Create(Id, s).Value).ToList();
+		
+		Raise(new UpdateEmployeeInIdsEvent(Guid.NewGuid(), firstName, lastName, userName, email));
+		
+		return Result.Success();
+	}
 }

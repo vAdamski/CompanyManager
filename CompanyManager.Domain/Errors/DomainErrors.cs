@@ -40,4 +40,11 @@ public static class DomainErrors
 			"Company.CompanyNotFound",
 			"Company not found.");
 	}
+	
+	public static class Employee
+	{
+		public static readonly Error EmployeeNotFound = new(
+			"Employee.EmployeeNotFound",
+			"Employee not found.");
+	}
 }
