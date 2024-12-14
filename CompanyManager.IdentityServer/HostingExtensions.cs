@@ -53,8 +53,22 @@ internal static class HostingExtensions
 				.Build());
 		});
 		
-		builder.Services.AddHostedService<CreateUserInIdsRequestHandler>();
-
+		var serviceBusConnectionString = Environment.GetEnvironmentVariable("SERVICE_BUS_CONNECTION_STRING") ??
+		                                 builder.Configuration.GetConnectionString("ServiceBusConnectionString");
+		
+		builder.Services.AddHostedService(provider => new CreateUserInIdsRequestHandler(
+			serviceBusConnectionString,
+			"CompanyManager.IdentityServer.CreateUser",
+			provider,
+			provider.GetRequiredService<ILogger<CreateUserInIdsRequestHandler>>()
+		));
+		
+		builder.Services.AddHostedService(provider => new UpdateUserInIdsRequestHandler(
+			serviceBusConnectionString,
+			"CompanyManager.IdentityServer.UpdateUser",
+			provider,
+			provider.GetRequiredService<ILogger<UpdateUserInIdsRequestHandler>>()
+		));
 
 		return builder.Build();
 	}
