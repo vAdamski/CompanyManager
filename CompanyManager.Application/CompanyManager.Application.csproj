@@ -22,8 +22,4 @@
       <ProjectReference Include="..\CompanyManager.Shared\CompanyManager.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Common\Services\" />
-    </ItemGroup>
-
 </Project>
