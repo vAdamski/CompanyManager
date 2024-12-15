@@ -1,6 +1,8 @@
+using CompanyManager.Common.Helpers;
+
 namespace CompanyManager.Configurations;
 
-public static class PolicesConfiguration
+public static class PolicyConfiguration
 {
 	public static IServiceCollection ConfigurePolices(this IServiceCollection services)
 	{
@@ -11,23 +13,29 @@ public static class PolicesConfiguration
 				policy.RequireAuthenticatedUser();
 				policy.RequireClaim("scope", "api1");
 			});
-			options.AddPolicy("User", policy =>
+			options.AddPolicy(PolicyValues.Employee, policy =>
 			{
 				policy.RequireAuthenticatedUser();
 				policy.RequireClaim("scope", "api1");
 				policy.RequireRole("User");
 			});
-			options.AddPolicy("CompanyOwner", policy =>
+			options.AddPolicy(PolicyValues.CompanyOwner, policy =>
 			{
 				policy.RequireAuthenticatedUser();
 				policy.RequireClaim("scope", "api1");
 				policy.RequireRole("User", "CompanyOwner");
 			});
-			options.AddPolicy("Admin", policy =>
+			options.AddPolicy(PolicyValues.Admin, policy =>
 			{
 				policy.RequireAuthenticatedUser();
 				policy.RequireClaim("scope", "api1");
 				policy.RequireRole("Admin");
+			});
+			options.AddPolicy(PolicyValues.AdminOrCompanyOwner, policy =>
+			{
+				policy.RequireAuthenticatedUser();
+				policy.RequireClaim("scope", "api1");
+				policy.RequireRole("Admin", "CompanyOwner");
 			});
 		});
 
