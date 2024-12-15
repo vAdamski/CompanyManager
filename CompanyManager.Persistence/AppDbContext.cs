@@ -38,6 +38,7 @@ public class AppDbContext : DbContext, IAppDbContext
 	public DbSet<Employee> Employees { get; set; }
 	public DbSet<EmployeeSupervisor> EmployeeSupervisors { get; set; }
 	public DbSet<EmployeeEmploymentContract> EmployeeEmploymentContracts { get; set; }
+	public DbSet<EmployeeSchool> EmployeeSchools { get; set; }
 	
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

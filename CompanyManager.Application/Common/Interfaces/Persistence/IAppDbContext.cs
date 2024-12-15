@@ -12,6 +12,7 @@ public interface IAppDbContext
 	DbSet<Employee> Employees { get; set; }
 	DbSet<EmployeeSupervisor> EmployeeSupervisors { get; set; }
 	DbSet<EmployeeEmploymentContract> EmployeeEmploymentContracts { get; set; }
+	DbSet<EmployeeSchool> EmployeeSchools { get; set; }
 	
 	DatabaseFacade Database { get; }
 	

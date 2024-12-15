@@ -1,4 +1,5 @@
 using CompanyManager.Domain.Common;
+using CompanyManager.Domain.Enums;
 using CompanyManager.Domain.Events;
 
 namespace CompanyManager.Domain.Entities;
@@ -8,6 +9,7 @@ public class Employee : AuditableEntity
 	private List<EmployeeSupervisor> _supervisors = new();
 	private List<EmployeeSupervisor> _subordinates = new();
 	private List<EmployeeEmploymentContract> _employmentContracts = new();
+	private List<EmployeeSchool> _schools = new();
 
 	public string FirstName { get; private set; }
 	public string LastName { get; private set; }
@@ -18,6 +20,7 @@ public class Employee : AuditableEntity
 	public IReadOnlyCollection<EmployeeSupervisor> Supervisors => _supervisors.AsReadOnly();
 	public IReadOnlyCollection<EmployeeSupervisor> Subordinates => _subordinates.AsReadOnly();
 	public IReadOnlyCollection<EmployeeEmploymentContract> EmploymentContracts => _employmentContracts.AsReadOnly();
+	public IReadOnlyCollection<EmployeeSchool> Schools => _schools.AsReadOnly();
 
 	private Employee()
 	{
@@ -106,5 +109,17 @@ public class Employee : AuditableEntity
 		_employmentContracts.Add(result.Value);
 		
 		return result;
+	}
+	
+	public Result<EmployeeSchool> AddSchoolInfo(string schoolName, DateOnly startDate, DateOnly? endDate, SchoolType type)
+	{
+		var result = EmployeeSchool.Create(this, schoolName, startDate, endDate, type);
+		
+		if (result.IsFailure)
+			return Result.Failure<EmployeeSchool>(result.Error);
+		
+		_schools.Add(result.Value);
+
+		return Result.Success(result.Value);
 	}
 }

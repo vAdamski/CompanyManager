@@ -58,4 +58,11 @@ public static class DomainErrors
 			"EmployeeEmploymentContract.StartDateCannotBeLaterThanEndDate",
 			"Start date cannot be later than end date.");
 	}
+	
+	public static class EmployeeSchool
+	{
+		public static readonly Error StartDateCannotBeLaterThanEndDate = new(
+			"EmployeeSchool.StartDateCannotBeLaterThanEndDate",
+			"Start date cannot be later than end date.");
+	}
 }
