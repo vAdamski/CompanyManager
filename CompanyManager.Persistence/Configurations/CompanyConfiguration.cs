@@ -11,11 +11,6 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
 		builder.HasKey(x => x.Id);
 		builder.Property(x => x.Id).ValueGeneratedNever();
 		builder.Property(x => x.CompanyName).IsRequired().HasMaxLength(256);
-		
-		builder.HasMany(x => x.LeaveApplications)
-			.WithOne(x => x.Company)
-			.HasForeignKey(x => x.CompanyId)
-			.OnDelete(DeleteBehavior.Cascade);
 
 		builder.HasMany(x => x.Employees)
 			.WithOne(x => x.Company)

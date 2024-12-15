@@ -10,7 +10,7 @@ public class LeaveApplicationConfiguration : IEntityTypeConfiguration<LeaveAppli
 	{
 		builder.HasKey(x => x.Id);
 		builder.Property(x => x.Id).ValueGeneratedNever();
-		builder.Property(x => x.CompanyId).IsRequired();
+		builder.Property(x => x.EmployeeId).IsRequired();
 		builder.Property(x => x.FreeFrom).IsRequired();
 		builder.Property(x => x.FreeTo).IsRequired();
 		builder.Property(x => x.WorkDaysCount).IsRequired();

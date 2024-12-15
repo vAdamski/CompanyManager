@@ -8,8 +8,8 @@ public class LeaveApplication : AuditableEntity
 {
 	private List<LeaveApplicationComment> _comments = new();
 	
-	public Guid CompanyId { get; private set; }
-	public Company? Company { get; private set; }
+	public Guid EmployeeId { get; private set; }
+	public Employee? Employee { get; private set; }
 
 	public DateOnly FreeFrom { get; private set; }
 	public DateOnly FreeTo { get; private set; }
@@ -22,10 +22,10 @@ public class LeaveApplication : AuditableEntity
 	{
 	}
 
-	private LeaveApplication(Company company, DateOnly freeFrom, DateOnly freeTo, int workDaysCount, LeaveApplicationType leaveApplicationType)
+	private LeaveApplication(Employee employee, DateOnly freeFrom, DateOnly freeTo, int workDaysCount, LeaveApplicationType leaveApplicationType)
 	{
-		CompanyId = company.Id;
-		Company = company;
+		EmployeeId = employee.Id;
+		Employee = employee;
 		FreeFrom = freeFrom;
 		FreeTo = freeTo;
 		WorkDaysCount = workDaysCount;
@@ -33,7 +33,7 @@ public class LeaveApplication : AuditableEntity
 		LeaveApplicationStatus = LeaveApplicationStatus.Pending;
 	}
 
-	public static Result<LeaveApplication> Create(Company company, DateOnly freeFrom, DateOnly freeTo, int workDaysCount,
+	public static Result<LeaveApplication> Create(Employee employee, DateOnly freeFrom, DateOnly freeTo, int workDaysCount,
 		LeaveApplicationType type)
 	{
 		if (freeFrom >= freeTo)
@@ -42,7 +42,7 @@ public class LeaveApplication : AuditableEntity
 		if (workDaysCount <= 0)
 			return Result.Failure<LeaveApplication>(DomainErrors.LeaveApplication.WorkDaysCountMustBeGreaterThanZero);
 
-		return new LeaveApplication(company, freeFrom, freeTo, workDaysCount, type);
+		return new LeaveApplication(employee, freeFrom, freeTo, workDaysCount, type);
 	}
 
 	public Result<LeaveApplicationComment> AddComment(string comment)

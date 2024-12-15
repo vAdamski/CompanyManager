@@ -10,7 +10,6 @@ public class Company : AuditableEntity
 	private List<Employee> _employees = new();
 	
 	public string CompanyName { get; private set; } = null!;
-	public IReadOnlyCollection<LeaveApplication> LeaveApplications => _leaveApplications;
 	public IReadOnlyCollection<Employee> Employees => _employees;
 	
 	private Company()

@@ -10,6 +10,7 @@ public class Employee : AuditableEntity
 	private List<EmployeeSupervisor> _subordinates = new();
 	private List<EmployeeEmploymentContract> _employmentContracts = new();
 	private List<EmployeeSchool> _schools = new();
+	private List<LeaveApplication> _leaveApplications = new();
 
 	public string FirstName { get; private set; }
 	public string LastName { get; private set; }
@@ -21,6 +22,7 @@ public class Employee : AuditableEntity
 	public IReadOnlyCollection<EmployeeSupervisor> Subordinates => _subordinates.AsReadOnly();
 	public IReadOnlyCollection<EmployeeEmploymentContract> EmploymentContracts => _employmentContracts.AsReadOnly();
 	public IReadOnlyCollection<EmployeeSchool> Schools => _schools.AsReadOnly();
+	public IReadOnlyCollection<LeaveApplication> LeaveApplications => _leaveApplications.AsReadOnly();
 
 	private Employee()
 	{
@@ -119,6 +121,18 @@ public class Employee : AuditableEntity
 			return Result.Failure<EmployeeSchool>(result.Error);
 		
 		_schools.Add(result.Value);
+
+		return Result.Success(result.Value);
+	}
+	
+	public Result<LeaveApplication> AddLeaveApplication(DateOnly startDate, DateOnly endDate, int workDaysCount, LeaveApplicationType type)
+	{
+		var result = LeaveApplication.Create(this, startDate, endDate, workDaysCount, type);
+		
+		if (result.IsFailure)
+			return Result.Failure<LeaveApplication>(result.Error);
+		
+		_leaveApplications.Add(result.Value);
 
 		return Result.Success(result.Value);
 	}
