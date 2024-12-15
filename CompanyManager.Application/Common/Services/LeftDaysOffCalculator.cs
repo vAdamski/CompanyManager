@@ -1,6 +1,8 @@
+using CompanyManager.Application.Common.Interfaces.Application.Services;
+
 namespace CompanyManager.Application.Common.Services;
 
-public class LeftDaysOffCalculator
+public class LeftDaysOffCalculator : ILeftDaysOffCalculator
 {
 	private const int MinimumVacationDays = 20;
 	private const int MaximumVacationDays = 26;

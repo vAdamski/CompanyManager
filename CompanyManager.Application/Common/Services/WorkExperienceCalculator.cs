@@ -1,9 +1,10 @@
 using CompanyManager.Application.Common.Helpers;
+using CompanyManager.Application.Common.Interfaces.Application.Services;
 using CompanyManager.Domain.Entities;
 
 namespace CompanyManager.Application.Common.Services;
 
-public class WorkExperienceCalculator
+public class WorkExperienceCalculator : IWorkExperienceCalculator
 {
 	/// <summary>
 	/// Calculates the total number of years worked by an employee based on the list of contracts and schools attended.
