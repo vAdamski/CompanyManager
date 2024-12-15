@@ -14,6 +14,11 @@ public class EmployeeSchool : AuditableEntity
 	public SchoolType Type { get; private set; } // Rodzaj szkoły
 	public int YearsIncluded { get; private set; } // Wliczane lata
 
+	private EmployeeSchool()
+	{
+		
+	}
+
 	private EmployeeSchool(Employee employee, string schoolName, DateOnly startDate, DateOnly? endDate, SchoolType type,
 		int yearsIncluded)
 	{
