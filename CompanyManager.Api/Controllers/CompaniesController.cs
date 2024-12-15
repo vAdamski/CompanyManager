@@ -10,7 +10,6 @@ namespace CompanyManager.Controllers;
 public class CompaniesController(ISender sender) : BaseController(sender)
 {
 	[HttpGet("current")]
-	[Authorize(Policy = "Employee, CompanyOwner")]
 	public async Task<IActionResult> GetCompany()
 	{
 		var result = await Sender.Send(new GetCompanyDetailsForCurrentUserQuery());
