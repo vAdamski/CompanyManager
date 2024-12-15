@@ -65,7 +65,7 @@ public class LeaveApplication : AuditableEntity
 		return Result.Success(leaveApplicationComment);
 	}
 	
-	public Result Approve()
+	public Result Accept()
 	{
 		if (LeaveApplicationStatus != LeaveApplicationStatus.Pending)
 			return Result.Failure(DomainErrors.LeaveApplication.OnlyPendingLeaveApplicationsCanBeApproved);

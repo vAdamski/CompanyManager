@@ -21,6 +21,10 @@ public static class DomainErrors
 		public static readonly Error OnlyPendingLeaveApplicationsCanBeRejected = new(
 			"LeaveApplication.OnlyPendingLeaveApplicationsCanBeRejected",
 			"Only pending leave applications can be rejected.");
+		
+		public static readonly Error LeaveApplicationNotFound = new(
+			"LeaveApplication.LeaveApplicationNotFound",
+			"Leave application not found.");
 	}
 	
 	public static class LeaveApplicationComment
