@@ -11,6 +11,7 @@ public interface IAppDbContext
 	DbSet<LeaveApplicationComment> LeaveApplicationComments { get; set; }
 	DbSet<Employee> Employees { get; set; }
 	DbSet<EmployeeSupervisor> EmployeeSupervisors { get; set; }
+	DbSet<EmployeeEmploymentContract> EmployeeEmploymentContracts { get; set; }
 	
 	DatabaseFacade Database { get; }
 	

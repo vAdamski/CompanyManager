@@ -37,6 +37,7 @@ public class AppDbContext : DbContext, IAppDbContext
 	public DbSet<LeaveApplicationComment> LeaveApplicationComments { get; set; }
 	public DbSet<Employee> Employees { get; set; }
 	public DbSet<EmployeeSupervisor> EmployeeSupervisors { get; set; }
+	public DbSet<EmployeeEmploymentContract> EmployeeEmploymentContracts { get; set; }
 	
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

@@ -7,17 +7,17 @@ public class Employee : AuditableEntity
 {
 	private List<EmployeeSupervisor> _supervisors = new();
 	private List<EmployeeSupervisor> _subordinates = new();
+	private List<EmployeeEmploymentContract> _employmentContracts = new();
 
 	public string FirstName { get; private set; }
 	public string LastName { get; private set; }
 	public string UserName { get; private set; }
 	public string Email { get; private set; }
-
 	public Guid CompanyId { get; private set; }
 	public Company? Company { get; private set; }
-
 	public IReadOnlyCollection<EmployeeSupervisor> Supervisors => _supervisors.AsReadOnly();
 	public IReadOnlyCollection<EmployeeSupervisor> Subordinates => _subordinates.AsReadOnly();
+	public IReadOnlyCollection<EmployeeEmploymentContract> EmploymentContracts => _employmentContracts.AsReadOnly();
 
 	private Employee()
 	{
