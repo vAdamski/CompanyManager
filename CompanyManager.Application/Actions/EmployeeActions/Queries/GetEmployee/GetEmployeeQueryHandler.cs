@@ -2,6 +2,7 @@ using CompanyManager.Application.Common.Abstraction.Messaging;
 using CompanyManager.Application.Common.Interfaces.Persistence;
 using CompanyManager.Application.Common.Services;
 using CompanyManager.Domain.Common;
+using CompanyManager.Domain.Enums;
 using CompanyManager.Domain.Errors;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ public class GetEmployeeQueryHandler(IAppDbContext ctx) : IQueryHandler<GetEmplo
 		var employee = await ctx.Employees
 			.Include(x => x.EmploymentContracts)
 			.Include(x => x.Schools)
+			.Include(x => x.LeaveApplications)
 			.Include(x => x.Supervisors)
 			.ThenInclude(x => x.Supervisor)
 			.FirstOrDefaultAsync(e => e.Id == request.EmployeeId, cancellationToken);
@@ -34,7 +36,10 @@ public class GetEmployeeQueryHandler(IAppDbContext ctx) : IQueryHandler<GetEmplo
 			employee.EmploymentContracts.ToList(),
 			employee.Schools.ToList());
 
-		var usedVacationDays = 0;
+		var usedVacationDays = employee.LeaveApplications
+			.Where(x => x.LeaveApplicationStatus == LeaveApplicationStatus.Approved)
+			.Select(x => x.WorkDaysCount)
+			.Sum();
 
 		var leftDaysOff = new LeftDaysOffCalculator().CalculateRemainingVacationDays(
 			employmentStartDate, workFraction, workExperience, usedVacationDays);
