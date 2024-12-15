@@ -1,4 +1,5 @@
 using CompanyManager.Domain.Common;
+using CompanyManager.Domain.Errors;
 
 namespace CompanyManager.Domain.Entities;
 
@@ -26,8 +27,14 @@ public class EmployeeEmploymentContract : AuditableEntity
 	
 	public Employee? Employee { get; private set; }
 	
-	public static EmployeeEmploymentContract Create(string companyName, DateOnly startDate, DateOnly? endDate, Employee employee)
+	public static Result<EmployeeEmploymentContract> Create(string companyName, DateOnly startDate, DateOnly? endDate, Employee employee)
 	{
+		if (string.IsNullOrWhiteSpace(companyName))
+			return Result.Failure<EmployeeEmploymentContract>(DomainErrors.EmployeeEmploymentContract.CompanyNameCannotBeEmpty);
+		
+		if (endDate.HasValue && startDate > endDate)
+			return Result.Failure<EmployeeEmploymentContract>(DomainErrors.EmployeeEmploymentContract.StartDateCannotBeLaterThanEndDate);
+		
 		return new EmployeeEmploymentContract(companyName, startDate, endDate, employee);
 	}
 }

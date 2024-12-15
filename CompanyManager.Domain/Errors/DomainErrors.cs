@@ -47,4 +47,15 @@ public static class DomainErrors
 			"Employee.EmployeeNotFound",
 			"Employee not found.");
 	}
+	
+	public static class EmployeeEmploymentContract
+	{
+		public static readonly Error CompanyNameCannotBeEmpty = new(
+			"EmployeeEmploymentContract.CompanyNameCannotBeEmpty",
+			"Company name cannot be empty.");
+		
+		public static readonly Error StartDateCannotBeLaterThanEndDate = new(
+			"EmployeeEmploymentContract.StartDateCannotBeLaterThanEndDate",
+			"Start date cannot be later than end date.");
+	}
 }

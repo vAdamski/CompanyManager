@@ -95,4 +95,16 @@ public class Employee : AuditableEntity
 		
 		return Result.Success();
 	}
+	
+	public Result<EmployeeEmploymentContract> AddEmploymentContract(string companyName, DateOnly startDate, DateOnly? endDate)
+	{
+		var result = EmployeeEmploymentContract.Create(companyName, startDate, endDate, this);
+		
+		if (result.IsFailure)
+			return Result.Failure<EmployeeEmploymentContract>(result.Error);
+		
+		_employmentContracts.Add(result.Value);
+		
+		return result;
+	}
 }
